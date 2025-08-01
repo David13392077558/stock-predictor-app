@@ -26,12 +26,14 @@ open_today = st.number_input("🟢 今日开盘价", min_value=0.0, format="%.2f
 
 # 预测按钮
 if st.button("✨ 开始预测明天收盘价"):
-    input_data = np.array([[close_today, volume_today, open_today]])
-    prediction = model.predict(input_data)
-    predicted_price = prediction[0][0]
-
-    st.success(f"🧠 预测结果：明日收盘价 ≈ ￥{predicted_price:.2f}")
-    st.balloons()
+    if close_today == 0.0 or volume_today == 0.0 or open_today == 0.0:
+        st.warning("⚠️ 请确保所有输入值均已填写且不为零。")
+    else:
+        input_data = np.array([[close_today, volume_today, open_today]])
+        prediction = model.predict(input_data)
+        predicted_price = prediction[0][0]
+        st.success(f"🧠 预测结果：明日收盘价 ≈ ￥{predicted_price:.2f}")
+        st.balloons()
 
 # 页脚
 st.markdown("---")
